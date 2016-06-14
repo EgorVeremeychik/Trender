@@ -2,6 +2,7 @@ package com.trender.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -10,7 +11,14 @@ import java.util.Set;
 
 @Entity
 @Table(name = "user", catalog = "trender")
-@NamedQueries({})
+@NamedQueries({
+        @NamedQuery(name = "User.readAll", query = "SELECT user FROM User user"),
+        @NamedQuery(name = "User.readById", query = "SELECT user FROM User user WHERE user.id = :id"),
+        @NamedQuery(name = "User.readByPassword", query = "SELECT user FROM User user WHERE user.password = :password"),
+        @NamedQuery(name = "User.findByMail", query = "SELECT user FROM User user WHERE user.email = :email"),
+        @NamedQuery(name = "User.findByFirstName", query = "SELECT user FROM User user WHERE user.firstName = :firstName"),
+        @NamedQuery(name = "User.findBySecondName", query = "SELECT user FROM User user WHERE user.secondName = :secondName")
+})
 public class User implements Serializable {
 
     private static final long serialVersionUID = 823794255839623231L;
@@ -19,8 +27,8 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, name = "id")
     private Long id;
-    @Column(name = "mail", nullable = false, length = 100)
-    private String mail;
+    @Column(name = "email", nullable = false, length = 100)
+    private String email;
     @Column(name = "password", nullable = false, length = 100)
     private String password;
     @Column(name = "first_name", nullable = false, length = 30)
@@ -28,25 +36,25 @@ public class User implements Serializable {
     @Column(name = "second_name", nullable = false, length = 30)
     private String secondName;
 
-    @ManyToMany(targetEntity = Answer.class, mappedBy = "users", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "users", fetch = FetchType.LAZY)
     private Set<Answer> answers;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
-    private Set<Role> roles;
+    @ManyToMany(mappedBy = "users", fetch = FetchType.LAZY)
+    private Set<Role> roles = new HashSet<>();
 
     public User() {
     }
 
-    public User(String password, String mail, String firstName, String secondName) {
+    public User(String password, String email, String firstName, String secondName) {
         this.password = password;
-        this.mail = mail;
+        this.email = email;
         this.firstName = firstName;
         this.secondName = secondName;
     }
 
-    public User(Long id, String mail, String password, String firstName, String secondName) {
+    public User(Long id, String email, String password, String firstName, String secondName) {
         this.id = id;
-        this.mail = mail;
+        this.email = email;
         this.password = password;
         this.firstName = firstName;
         this.secondName = secondName;
@@ -60,12 +68,12 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public String getMail() {
-        return mail;
+    public String getEmail() {
+        return email;
     }
 
-    public void setMail(String mail) {
-        this.mail = mail;
+    public void setEmail(String mail) {
+        this.email = mail;
     }
 
     public String getPassword() {
@@ -112,7 +120,7 @@ public class User implements Serializable {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", mail='" + mail + '\'' +
+                ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", secondName='" + secondName + '\'' +
@@ -125,7 +133,7 @@ public class User implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
         if (!id.equals(user.id)) return false;
-        if (!mail.equals(user.mail)) return false;
+        if (!email.equals(user.email)) return false;
         if (!password.equals(user.password)) return false;
         if (!firstName.equals(user.firstName)) return false;
         return secondName.equals(user.secondName);
@@ -135,7 +143,7 @@ public class User implements Serializable {
     @Override
     public int hashCode() {
         int result = id.hashCode();
-        result = 31 * result + mail.hashCode();
+        result = 31 * result + email.hashCode();
         result = 31 * result + password.hashCode();
         result = 31 * result + firstName.hashCode();
         result = 31 * result + secondName.hashCode();

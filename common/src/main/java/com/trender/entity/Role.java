@@ -2,6 +2,7 @@ package com.trender.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 /**
  * Created by Egor.Veremeychik on 13.06.2016.
@@ -9,8 +10,15 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "role", catalog = "trender")
-@NamedQueries({})
+@NamedQueries({
+        @NamedQuery(name = "Role.readAll1", query = "SELECT role FROM Role role"),
+        @NamedQuery(name = "Role.readById", query = "SELECT role FROM Role role WHERE role.id = :id"),
+        @NamedQuery(name = "Role.readAll", query = "SELECT role FROM Role role join role.users users WHERE users.id = :id"),
+
+})
 public class Role implements Serializable {
+
+    public static final String READ_ALL = "Role.readAll";
 
     private static final long serialVersionUID = -23243423823982L;
 
@@ -22,9 +30,15 @@ public class Role implements Serializable {
     @Column(name = "role_name", nullable = false, length = 45)
     private String roleName;
 
-    @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
+    /*@JoinColumn(name = "question_id", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private User user;
+    private User user;*/
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(name = "user_has_role", joinColumns = {
+            @JoinColumn(name = "role_id", referencedColumnName = "id")}, inverseJoinColumns = {
+            @JoinColumn(name = "user_id", referencedColumnName = "id")})
+    private Set<User> users;
 
     public Role() {
     }
@@ -54,13 +68,13 @@ public class Role implements Serializable {
         this.id = roleID;
     }
 
-    public User getUser() {
+    /*public User getUser() {
         return user;
     }
 
     public void setUser(User user) {
         this.user = user;
-    }
+    }*/
 
     @Override
     public String toString() {
@@ -79,7 +93,6 @@ public class Role implements Serializable {
 
         if (!id.equals(role.id)) return false;
         return roleName.equals(role.roleName);
-
     }
 
     @Override

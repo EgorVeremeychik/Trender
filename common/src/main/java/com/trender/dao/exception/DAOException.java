@@ -1,20 +1,20 @@
 package com.trender.dao.exception;
 
-public class DAOException extends Exception {
+public class DaoException extends Exception {
 
 	private static final long serialVersionUID = -6456501015920578270L;
 
-	public DAOException() {}
+	public DaoException() {}
 
-	public DAOException(String msg) {
+	public DaoException(String msg) {
 		super(msg);
 	}
 
-	public DAOException(Throwable cause) {
+	public DaoException(Throwable cause) {
 		super(cause);
 	}
 
-	public DAOException(String msg, Throwable cause) {
+	public DaoException(String msg, Throwable cause) {
 		super(msg, cause);
 	}
 }

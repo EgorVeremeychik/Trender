@@ -10,7 +10,12 @@ import java.util.Set;
 
 @Entity
 @Table(name = "answer", catalog = "trender")
-@NamedQueries({})
+@NamedQueries({
+        @NamedQuery(name = "Answer.readAll", query = "SELECT a FROM Answer a"),
+        @NamedQuery(name = "Answer.readById", query = "SELECT a FROM Answer a WHERE a.id = :id"),
+        @NamedQuery(name = "Answer.readByValue", query = "SELECT a FROM Answer a WHERE a.value = :value"),
+        @NamedQuery(name = "Answer.findByQuestionId", query = "SELECT a FROM Answer a WHERE a.questionId = :questionId")
+})
 public class Answer implements Serializable {
 
     private static final long serialVersionUID = 2365237873623L;
@@ -26,10 +31,10 @@ public class Answer implements Serializable {
     @Column(name = "question_id")
     private long questionId;
 
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "user_has_answer", joinColumns = {
         @JoinColumn(name = "answer_id", referencedColumnName = "id")}, inverseJoinColumns = {
         @JoinColumn(name = "user_id", referencedColumnName = "id")})
-    @ManyToMany(targetEntity = User.class, mappedBy = "answers", fetch = FetchType.LAZY)
     private Set<User> users;
 
     @JoinColumn(name = "question_id", referencedColumnName = "id", insertable = false, updatable = false)
