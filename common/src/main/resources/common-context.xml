@@ -39,4 +39,7 @@
     <bean id="jpaDialect" class="org.springframework.orm.jpa.vendor.HibernateJpaDialect"/>
 
     <tx:annotation-driven transaction-manager="transactionManager"  proxy-target-class="true"/>
+
+    <!--<bean class="com.trender.view.config.VaadinConfiguration" />-->
+
 </beans>

@@ -1,24 +1,88 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-
   <groupId>com.trender</groupId>
   <artifactId>Trender</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <modules>
-    <module>Common</module>
-  </modules>
   <packaging>pom</packaging>
-
   <name>Trender</name>
   <url>http://maven.apache.org</url>
 
+  <modules>
+      <module>Common</module>
+      <module>trender-admin</module>
+  </modules>
+
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <start-class>demo.vaadin.Application</start-class>
     <spring.version>4.2.4.RELEASE</spring.version>
   </properties>
 
+  <!--<dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>com.vaadin</groupId>
+        <artifactId>vaadin-bom</artifactId>
+        <version>${vaadin.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>-->
+
   <dependencies>
+<!--
+
+    &lt;!&ndash; spring boot for vaadin, see: https://github.com/peholmst/vaadin4spring &ndash;&gt;
+
+    <dependency>
+      <groupId>org.vaadin.spring</groupId>
+      <artifactId>spring-vaadin</artifactId>
+      <version>0.0.5.RELEASE</version>
+    </dependency>
+    <dependency>
+      <groupId>com.vaadin</groupId>
+      <artifactId>vaadin-themes</artifactId>
+      <version>7.2.4</version>
+    </dependency>
+    <dependency>
+      <groupId>com.vaadin</groupId>
+      <artifactId>vaadin-client-compiled</artifactId>
+      <version>7.2.4</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>3.0.1</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.vaadin</groupId>
+      <artifactId>vaadin-server</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.vaadin</groupId>
+      <artifactId>vaadin-push</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.vaadin</groupId>
+      <artifactId>vaadin-client</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.vaadin</groupId>
+      <artifactId>vaadin-client-compiler</artifactId>
+      <scope>provided</scope>
+    </dependency>
+-->
+      <dependency>
+          <groupId>com.vaadin</groupId>
+          <artifactId>vaadin-archetype-application</artifactId>
+          <version>7.6.6</version>
+      </dependency>
+
     <!-- spring -->
     <dependency>
       <groupId>org.springframework</groupId>

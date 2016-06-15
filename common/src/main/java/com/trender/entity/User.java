@@ -15,11 +15,13 @@ import java.util.Set;
         @NamedQuery(name = "User.readAll", query = "SELECT user FROM User user"),
         @NamedQuery(name = "User.readById", query = "SELECT user FROM User user WHERE user.id = :id"),
         @NamedQuery(name = "User.readByPassword", query = "SELECT user FROM User user WHERE user.password = :password"),
-        @NamedQuery(name = "User.findByMail", query = "SELECT user FROM User user WHERE user.email = :email"),
-        @NamedQuery(name = "User.findByFirstName", query = "SELECT user FROM User user WHERE user.firstName = :firstName"),
-        @NamedQuery(name = "User.findBySecondName", query = "SELECT user FROM User user WHERE user.secondName = :secondName")
+        @NamedQuery(name = "User.readByMail", query = "SELECT user FROM User user WHERE user.email = :email"),
+        @NamedQuery(name = "User.readByFirstName", query = "SELECT user FROM User user WHERE user.firstName = :firstName"),
+        @NamedQuery(name = "User.readBySecondName", query = "SELECT user FROM User user WHERE user.secondName = :secondName")
 })
 public class User implements Serializable {
+
+    public static final String READ_USER_BY_LOGIN = "User.readByMail";
 
     private static final long serialVersionUID = 823794255839623231L;
 

@@ -25,9 +25,9 @@ public class AbstractDaoTest extends Assert {
         }
     }
 
-    @Test
+    /*@Test
     public void testCreate() throws Exception {
         userDAO.create(new User("password", "email", "firstName", "secondName"));
-    }
+    }*/
 
 }

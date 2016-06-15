@@ -10,7 +10,7 @@ import javax.persistence.TypedQuery;
 
 import java.util.List;
 
-import static com.trender.entity.Role.READ_ALL;
+import static com.trender.entity.Role.READ_USER_ROLES;
 
 /**
  * Created by EgorVeremeychik on 13.06.2016.
@@ -25,7 +25,7 @@ public class RoleDaoImpl extends AbstractDao<Role, Long> implements RoleDao {
 
     @Override
     public List<Role> readRoleByUserId(Long id) throws DaoException {
-        TypedQuery<Role> query = entityManager.createNamedQuery(READ_ALL, Role.class);
+        TypedQuery<Role> query = entityManager.createNamedQuery(READ_USER_ROLES, Role.class);
         query.setParameter("id", id);
         List<Role> roles = query.getResultList();
         return roles;

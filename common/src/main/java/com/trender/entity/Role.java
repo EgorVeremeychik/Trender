@@ -11,14 +11,14 @@ import java.util.Set;
 @Entity
 @Table(name = "role", catalog = "trender")
 @NamedQueries({
-        @NamedQuery(name = "Role.readAll1", query = "SELECT role FROM Role role"),
+        @NamedQuery(name = "Role.readAll", query = "SELECT role FROM Role role"),
         @NamedQuery(name = "Role.readById", query = "SELECT role FROM Role role WHERE role.id = :id"),
-        @NamedQuery(name = "Role.readAll", query = "SELECT role FROM Role role join role.users users WHERE users.id = :id"),
+        @NamedQuery(name = "Role.readUserRoles", query = "SELECT role FROM Role role join role.users users WHERE users.id = :id"),
 
 })
 public class Role implements Serializable {
 
-    public static final String READ_ALL = "Role.readAll";
+    public static final String READ_USER_ROLES = "Role.readUserRoles";
 
     private static final long serialVersionUID = -23243423823982L;
 

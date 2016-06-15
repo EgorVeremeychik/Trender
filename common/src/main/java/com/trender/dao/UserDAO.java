@@ -1,5 +1,6 @@
 package com.trender.dao;
 
+import com.trender.dao.exception.DaoException;
 import com.trender.entity.User;
 
 /**
@@ -7,5 +8,7 @@ import com.trender.entity.User;
  */
 
 public interface UserDao extends Dao<User,Long> {
+
+    User readUserByLogin(String login) throws DaoException;
 
 }

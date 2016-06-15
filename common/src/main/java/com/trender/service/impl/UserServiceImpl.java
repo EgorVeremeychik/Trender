@@ -6,12 +6,15 @@ import com.trender.entity.User;
 import com.trender.service.UserService;
 import com.trender.service.exception.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * Created by Egor.Veremeychik on 14.06.2016.
  */
+
+@Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -66,6 +69,17 @@ public class UserServiceImpl implements UserService {
         List<User> result = null;
         try {
             result = userDao.readAll();
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+        return result;
+    }
+
+    @Override
+    public User readByLogin(String login) throws ServiceException {
+        User result = null;
+        try {
+            result = userDao.readUserByLogin(login);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

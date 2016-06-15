@@ -2,12 +2,14 @@ package com.trender.service;
 
 import com.trender.entity.Question;
 import com.trender.service.exception.ServiceException;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * Created by EgorVeremeychik on 14.06.2016.
  */
+
 public interface QuestionService {
     void create(Question question) throws ServiceException;
 

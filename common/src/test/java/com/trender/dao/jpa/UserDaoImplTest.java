@@ -8,19 +8,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import static org.junit.Assert.*;
+
 /**
- * Created by Egor.Veremeychik on 14.06.2016.
+ * Created by Egor.Veremeychik on 15.06.2016.
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:common-context.xml")
-public class AbstractDaoTest extends Assert {
+public class UserDaoImplTest extends Assert {
 
     @Autowired
-    private UserDao userDao;
+    UserDao userDao;
 
     @Test
-    public void testRead() throws Exception {
-        System.out.println(userDao.read(2L));
+    public void readUserByLogin() throws Exception {
+        System.out.println(userDao.readUserByLogin("qwe@mail.ru"));
     }
 }

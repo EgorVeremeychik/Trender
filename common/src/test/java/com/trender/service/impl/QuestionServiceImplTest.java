@@ -25,7 +25,7 @@ public class QuestionServiceImplTest extends Assert {
 
     @Test
     public void create() throws Exception {
-        questionService.create(new Question("fgsd"));
+        /*questionService.create(new Question("fgsd"));*/
     }
 
 }
