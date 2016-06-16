@@ -2,10 +2,14 @@ package com.trender;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
-import com.vaadin.annotations.Widgetset;
+import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
+import com.vaadin.spring.annotation.SpringUI;
+import com.vaadin.spring.navigator.SpringViewProvider;
+import com.vaadin.spring.server.SpringVaadinServlet;
 import com.vaadin.ui.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.annotation.WebServlet;
 
@@ -17,31 +21,22 @@ import javax.servlet.annotation.WebServlet;
  * overridden to add component to the user interface and initialize non-component functionality.
  */
 @Theme("mytheme")
-@Widgetset("com.trender.MyAppWidgetset")
+@SpringUI
 public class MyUI extends UI {
 
-    @Override
-    protected void init(VaadinRequest vaadinRequest) {
-        final VerticalLayout layout = new VerticalLayout();
-        
-        final TextField name = new TextField();
-        name.setCaption("Type your name here:");
+    @Autowired
+    private SpringViewProvider viewProvider;
 
-        Button button = new Button("Click Me");
-        button.addClickListener( e -> {
-            layout.addComponent(new Label("Thanks " + name.getValue() 
-                    + ", it works!"));
-        });
-        
-        layout.addComponents(name, button);
-        layout.setMargin(true);
-        layout.setSpacing(true);
-        
-        setContent(layout);
+    @Override
+    protected void init(VaadinRequest request) {
+        Navigator navigator = new Navigator(this, this);
+        navigator.addProvider(viewProvider);
+        navigator.navigateTo(LoginView.VIEW_NAME);
     }
 
-    @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
-    @VaadinServletConfiguration(ui = MyUI.class, productionMode = true)
-    public static class MyUIServlet extends VaadinServlet {
+    @WebServlet(name = "ServletConfig", value = "/*", asyncSupported = true)
+    @VaadinServletConfiguration(productionMode = false, ui = MyUI.class)
+    public class ServletConfig extends SpringVaadinServlet {
+
     }
 }
