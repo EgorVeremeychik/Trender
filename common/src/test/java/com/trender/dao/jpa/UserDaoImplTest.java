@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by Egor.Veremeychik on 15.06.2016.
  */
@@ -23,6 +21,6 @@ public class UserDaoImplTest extends Assert {
 
     @Test
     public void readUserByLogin() throws Exception {
-        System.out.println(userDao.readUserByLogin("qwe@mail.ru"));
+        /*System.out.println(userDao.readUserByLogin("qwe@mail.ru"));*/
     }
 }

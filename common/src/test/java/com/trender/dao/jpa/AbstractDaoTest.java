@@ -21,6 +21,6 @@ public class AbstractDaoTest extends Assert {
 
     @Test
     public void testRead() throws Exception {
-        System.out.println(userDao.read(2L));
+        /*System.out.println(userDao.read(2L));*/
     }
 }

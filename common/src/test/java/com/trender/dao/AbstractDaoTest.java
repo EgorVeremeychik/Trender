@@ -1,6 +1,5 @@
 package com.trender.dao;
 
-import com.trender.entity.User;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,7 +20,7 @@ public class AbstractDaoTest extends Assert {
     @Test
     public void testReadAll() throws Exception {
         for(int i = 0; i< userDAO.readAll().size(); i++){
-            System.out.println(userDAO.readAll().get(i));
+            /*System.out.println(userDAO.readAll().get(i));*/
         }
     }
 
