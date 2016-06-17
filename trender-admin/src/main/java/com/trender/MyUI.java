@@ -1,17 +1,12 @@
 package com.trender;
 
 import com.vaadin.annotations.Theme;
-import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
-import com.vaadin.server.VaadinServlet;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.spring.navigator.SpringViewProvider;
-import com.vaadin.spring.server.SpringVaadinServlet;
-import com.vaadin.ui.*;
+import com.vaadin.ui.UI;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import javax.servlet.annotation.WebServlet;
 
 /**
  * This UI is the application entry point. A UI may either represent a browser window 
@@ -22,6 +17,7 @@ import javax.servlet.annotation.WebServlet;
  */
 @Theme("mytheme")
 @SpringUI
+@SuppressWarnings("serial")
 public class MyUI extends UI {
 
     @Autowired
@@ -32,11 +28,5 @@ public class MyUI extends UI {
         Navigator navigator = new Navigator(this, this);
         navigator.addProvider(viewProvider);
         navigator.navigateTo(LoginView.VIEW_NAME);
-    }
-
-    @WebServlet(name = "ServletConfig", value = "/*", asyncSupported = true)
-    @VaadinServletConfiguration(productionMode = false, ui = MyUI.class)
-    public class ServletConfig extends SpringVaadinServlet {
-
     }
 }
