@@ -1,2 +1,5 @@
 com\trender\MyUI.class
+com\trender\MyUI$MyContextLoaderListener.class
 com\trender\MyUI$MyUIServlet.class
+com\trender\LoginView.class
+com\trender\MyUI$MyConfiguration.class

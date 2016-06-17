@@ -1,12 +1,18 @@
 package com.trender;
 
 import com.vaadin.annotations.Theme;
-import com.vaadin.annotations.VaadinServletConfiguration;
-import com.vaadin.annotations.Widgetset;
+import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
-import com.vaadin.ui.*;
+import com.vaadin.spring.annotation.EnableVaadin;
+import com.vaadin.spring.annotation.SpringUI;
+import com.vaadin.spring.navigator.SpringViewProvider;
+import com.vaadin.ui.UI;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.context.ContextLoaderListener;
 
+import javax.servlet.annotation.WebListener;
 import javax.servlet.annotation.WebServlet;
 
 /**
@@ -16,32 +22,36 @@ import javax.servlet.annotation.WebServlet;
  * The UI is initialized using {@link #init(VaadinRequest)}. This method is intended to be 
  * overridden to add component to the user interface and initialize non-component functionality.
  */
+
+
 @Theme("mytheme")
-@Widgetset("com.trender.MyAppWidgetset")
+@SpringUI
+//@Widgetset("com.trender.MyAppWidgetset")
 public class MyUI extends UI {
 
-    @Override
-    protected void init(VaadinRequest vaadinRequest) {
-        final VerticalLayout layout = new VerticalLayout();
-        
-        final TextField name = new TextField();
-        name.setCaption("Type your name here:");
+    @Autowired
+    private SpringViewProvider viewProvider;
 
-        Button button = new Button("Click Me");
-        button.addClickListener( e -> {
-            layout.addComponent(new Label("Thanks " + name.getValue() 
-                    + ", it works!"));
-        });
-        
-        layout.addComponents(name, button);
-        layout.setMargin(true);
-        layout.setSpacing(true);
-        
-        setContent(layout);
+    @WebListener
+    public static class MyContextLoaderListener extends ContextLoaderListener {
+    }
+
+    @Configuration
+    @EnableVaadin
+    public static class MyConfiguration {
+    }
+
+    @Override
+    protected void init(VaadinRequest request) {
+        Navigator navigator = new Navigator(this, this);
+        navigator.addProvider(viewProvider);
+        navigator.navigateTo(LoginView.VIEW_NAME);
     }
 
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
+/*
     @VaadinServletConfiguration(ui = MyUI.class, productionMode = true)
+*/
     public static class MyUIServlet extends VaadinServlet {
     }
 }
