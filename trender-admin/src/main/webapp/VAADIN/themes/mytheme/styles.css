@@ -19,6 +19,9 @@
  * @group util
  */
 
+@import "trender.css";
+@import "adminPage.css";
+
 @-webkit-keyframes valo-animate-in-fade {
 		0% {
 		opacity: 0;
@@ -12935,4 +12938,50 @@ div.v-layout.v-horizontal.v-widget {
 	display: inline-block;
 	width: 19px;
 	overflow: hidden;
+}
+
+.v-background {
+	background: white;
+	padding: 5px;
+}
+
+.v-logo {
+	color: #333;
+	font-size: 24pt;
+	top: 3px;
+}
+
+.v-button-header-login{
+	top: 6px;
+	right: 240px;
+	float: right;
+	color: #197de1;
+}
+
+.v-button-header-reg{
+	position: relative;
+	top: 6px;
+	right: -75px;
+	float: right;
+}
+
+.v-label-header-user-name{
+	position: relative;
+	top: 12px;
+	right: 100px;
+	float: right;
+	color: #197de1;
+}
+
+.v-button-header-sing-out{
+	position: relative;
+	top: 6px;
+	right: -375px;
+	float: right;
+}
+
+.v-menu{
+	position: relative;
+	top: 6px;
+	left: -4px;
 }

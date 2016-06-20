@@ -40,6 +40,6 @@
 
     <tx:annotation-driven transaction-manager="transactionManager"  proxy-target-class="true"/>
 
-    <!--<bean class="com.trender.view.config.VaadinConfiguration" />-->
+    <!--<bean class="com.trender.view.util.VaadinConfiguration" />-->
 
 </beans>

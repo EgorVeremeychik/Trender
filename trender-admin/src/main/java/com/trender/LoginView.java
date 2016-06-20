@@ -1,12 +1,11 @@
 package com.trender;
 
+import com.vaadin.annotations.Theme;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.server.Page;
 import com.vaadin.server.Responsive;
-import com.vaadin.shared.Position;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
@@ -14,11 +13,19 @@ import com.vaadin.ui.themes.ValoTheme;
 /**
  * Created by EgorVeremeychik on 16.06.2016.
  */
-
+@Theme("mytheme")
 @SpringView(name = LoginView.VIEW_NAME)
 public class LoginView extends VerticalLayout implements View {
 
     public static final String VIEW_NAME = "admin";
+
+    public LoginView() {
+        setSizeFull();
+
+        Component loginForm = buildLoginForm();
+        addComponent(loginForm);
+        setComponentAlignment(loginForm, Alignment.MIDDLE_CENTER);
+    }
 
     private Component buildLoginForm() {
         final VerticalLayout loginPanel = new VerticalLayout();
@@ -38,7 +45,7 @@ public class LoginView extends VerticalLayout implements View {
         fields.setSpacing(true);
         fields.addStyleName("fields");
 
-        final TextField username = new TextField("Username");
+        final TextField username = new TextField("Adminname");
         username.setIcon(FontAwesome.USER);
         username.addStyleName(ValoTheme.TEXTFIELD_INLINE_ICON);
 
@@ -55,10 +62,7 @@ public class LoginView extends VerticalLayout implements View {
         fields.setComponentAlignment(signin, Alignment.BOTTOM_LEFT);
 
         signin.addClickListener((Button.ClickListener) event -> {
-            /*DashboardEventBus.post(new UserLoginRequestedEvent(username
-                    .getValue(), password.getValue()));*/
-            System.out.println(username.getValue());
-            System.out.println(password.getValue());
+            getUI().getNavigator().navigateTo(AdminView.VIEW_NAME);
         });
         return fields;
     }
@@ -67,13 +71,13 @@ public class LoginView extends VerticalLayout implements View {
         CssLayout labels = new CssLayout();
         labels.addStyleName("labels");
 
-        Label welcome = new Label("Welcome");
+        Label welcome = new Label("Trender");
         welcome.setSizeUndefined();
-        welcome.addStyleName(ValoTheme.LABEL_H4);
+        welcome.addStyleName(ValoTheme.LABEL_H3);
         welcome.addStyleName(ValoTheme.LABEL_COLORED);
         labels.addComponent(welcome);
 
-        Label title = new Label("QuickTickets Dashboard");
+        Label title = new Label("admin panel");
         title.setSizeUndefined();
         title.addStyleName(ValoTheme.LABEL_H3);
         title.addStyleName(ValoTheme.LABEL_LIGHT);
@@ -83,20 +87,5 @@ public class LoginView extends VerticalLayout implements View {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
-        setSizeFull();
-
-        Component loginForm = buildLoginForm();
-        addComponent(loginForm);
-        setComponentAlignment(loginForm, Alignment.MIDDLE_CENTER);
-
-        Notification notification = new Notification(
-                "Welcome to Dashboard Demo");
-        notification
-                .setDescription("<span>This application is not real, it only demonstrates an application built with the <a href=\"https://vaadin.com\">Vaadin framework</a>.</span> <span>No username or password is required, just click the <b>Sign In</b> button to continue.</span>");
-        notification.setHtmlContentAllowed(true);
-        notification.setStyleName("tray dark small closable login-help");
-        notification.setPosition(Position.BOTTOM_CENTER);
-        notification.setDelayMsec(20000);
-        notification.show(Page.getCurrent());
     }
 }

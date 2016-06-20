@@ -1,0 +1,45 @@
+.v-background {
+  background: white;
+  padding: 5px;
+}
+
+.v-logo {
+  color: #333;
+  font-size: 24pt;
+  top: 3px;
+}
+
+.v-button-header-login{
+  top: 6px;
+  right: 240px;
+  float: right;
+  color: #197de1;
+}
+
+.v-button-header-reg{
+  position: relative;
+  top: 6px;
+  right: -75px;
+  float: right;
+}
+
+.v-label-header-user-name{
+  position: relative;
+  top: 12px;
+  right: 100px;
+  float: right;
+  color: #197de1;
+}
+
+.v-button-header-sing-out{
+  position: relative;
+  top: 6px;
+  right: -375px;
+  float: right;
+}
+
+.v-menu{
+  position: relative;
+  top: 6px;
+  left: -4px;
+}

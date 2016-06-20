@@ -1,5 +1,5 @@
 com\trender\MyUI.class
-com\trender\MyUI$MyContextLoaderListener.class
-com\trender\MyUI$MyUIServlet.class
+com\trender\util\VaadinConfiguration.class
+com\trender\util\ServletConfig.class
 com\trender\LoginView.class
-com\trender\MyUI$MyConfiguration.class
+com\trender\util\ContextLoaderListenerConfig.class

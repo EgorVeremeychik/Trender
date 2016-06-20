@@ -1,5 +1,8 @@
 @import "mytheme.scss";
 @import "addons.scss";
+@import "trender.css";
+@import "adminPage.css";
+@import "common.scss";
 
 // This file prefixes all rules with the theme name to avoid causing conflicts with other themes.
 // The actual styles should be defined in mytheme.scss
@@ -7,5 +10,7 @@
 .mytheme {
   @include addons;
   @include mytheme;
-
+  @include trender;
+  @include trender-login-view;
+  @include common;
 }
