@@ -1,10 +1,9 @@
 package com.trender.component;
 
-/*import com.trender.user.AddEditStudyView;
-import com.trender.user.ProfilePageView;
-import com.trender.user.UserPageView;*/
+/*import com.trender.view.us.AddEditStudyView;
+import com.trender.view.us.ProfilePageView;
+import com.trender.view.us.UserPageView;*/
 import com.vaadin.navigator.Navigator;
-import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
@@ -34,7 +33,7 @@ public class Header extends CssLayout {
         userNameLable = new Label();
         userNameLable.setWidth(400, Unit.PIXELS);
         userNameLable.setValue("Добро пожаловать " + name);
-        userNameLable.addStyleName("v-label-header-user-name");
+        userNameLable.addStyleName("v-label-header-us-name");
         userNameLable.addStyleName("v-label");
         singInOrSingOutButton = new Button();
         singInOrSingOutButton.setCaption("Выйти");

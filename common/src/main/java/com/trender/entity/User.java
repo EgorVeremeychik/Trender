@@ -10,7 +10,7 @@ import java.util.Set;
  */
 
 @Entity
-@Table(name = "user", catalog = "trender")
+@Table(name = "us", catalog = "trender")
 @NamedQueries({
         @NamedQuery(name = "User.readAll", query = "SELECT user FROM User user"),
         @NamedQuery(name = "User.readById", query = "SELECT user FROM User user WHERE user.id = :id"),

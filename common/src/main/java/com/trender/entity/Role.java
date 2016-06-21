@@ -32,7 +32,7 @@ public class Role implements Serializable {
 
     /*@JoinColumn(name = "question_id", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private User user;*/
+    private User us;*/
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "user_has_role", joinColumns = {
@@ -69,11 +69,11 @@ public class Role implements Serializable {
     }
 
     /*public User getUser() {
-        return user;
+        return us;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(User us) {
+        this.us = us;
     }*/
 
     @Override

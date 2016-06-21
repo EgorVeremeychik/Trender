@@ -35,8 +35,6 @@ import com.vaadin.ui.themes.ValoTheme;
 @SuppressWarnings("serial")
 public class ProfilePreferencesWindow extends Window {
 
-    public static final String ID = "profilepreferenceswindow";
-
     private final BeanFieldGroup<User> fieldGroup;
 
     @PropertyId("firstName")

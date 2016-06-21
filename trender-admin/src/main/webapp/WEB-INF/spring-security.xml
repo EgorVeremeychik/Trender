@@ -20,7 +20,7 @@
 				<user name="user" password="user" authorities="ADMIN"/>
 			</user-service>
 			<!--<password-encoder hash="md5" />
-			<jdbc-user-service data-source-ref="dataSource"
+			<jdbc-us-service data-source-ref="dataSource"
 				users-by-username-query="SELECT user_name as email, password, 1 as enabled
 				 FROM UserView WHERE email=?"
 				authorities-by-username-query="SELECT u.user_name as email, r.role_name as role

@@ -3,8 +3,8 @@ package com.trender.component;
 /**
  * Created by Egor.Veremeychik on 20.06.2016.
  */
-import com.trender.question.QuestionView;
-import com.trender.user.UserView;
+import com.trender.view.question.QuestionView;
+import com.trender.view.user.UserView;
 import com.vaadin.navigator.View;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;

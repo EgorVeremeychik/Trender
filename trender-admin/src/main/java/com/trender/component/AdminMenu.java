@@ -4,48 +4,48 @@ package com.trender.component;
  * Created by Egor.Veremeychik on 20.06.2016.
  */
 
-        import com.trender.entity.Question;
-        import com.trender.entity.User;
-        import com.vaadin.event.dd.DragAndDropEvent;
-        import com.vaadin.event.dd.DropHandler;
-        import com.vaadin.event.dd.acceptcriteria.AcceptCriterion;
-        import com.vaadin.server.FontAwesome;
-        import com.vaadin.server.ThemeResource;
-        import com.vaadin.shared.ui.label.ContentMode;
-        import com.vaadin.ui.AbstractSelect.AcceptItem;
-        import com.vaadin.ui.Alignment;
-        import com.vaadin.ui.Button;
-        import com.vaadin.ui.Button.ClickEvent;
-        import com.vaadin.ui.Button.ClickListener;
-        import com.vaadin.ui.Component;
-        import com.vaadin.ui.CssLayout;
-        import com.vaadin.ui.CustomComponent;
-        import com.vaadin.ui.DragAndDropWrapper;
-        import com.vaadin.ui.DragAndDropWrapper.DragStartMode;
-        import com.vaadin.ui.HorizontalLayout;
-        import com.vaadin.ui.Label;
-        import com.vaadin.ui.MenuBar;
-        import com.vaadin.ui.MenuBar.Command;
-        import com.vaadin.ui.MenuBar.MenuItem;
-        import com.vaadin.ui.Table;
-        import com.vaadin.ui.UI;
-        import com.vaadin.ui.themes.ValoTheme;
+import com.google.gwt.thirdparty.guava.common.eventbus.Subscribe;
+import com.trender.entity.User;
+import com.trender.event.TrenderEvent.ProfileUpdatedEvent;
+import com.trender.event.TrenderEvent.PostViewChangeEvent;
+import com.trender.event.TrenderEvent.UserLoggedOutEvent;
+import com.trender.event.TrenderEventBus;
+import com.vaadin.server.FontAwesome;
+import com.vaadin.server.ThemeResource;
+import com.vaadin.server.VaadinSession;
+import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.CustomComponent;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.MenuBar;
+import com.vaadin.ui.MenuBar.Command;
+import com.vaadin.ui.MenuBar.MenuItem;
+import com.vaadin.ui.UI;
+import com.vaadin.ui.themes.ValoTheme;
 
 /**
  * A responsive menu component providing user information and the controls for
  * primary navigation between the views.
  */
+
 @SuppressWarnings({ "serial", "unchecked" })
 public final class AdminMenu extends CustomComponent {
 
+    public static final String ID = "dashboard-menu";
     private static final String STYLE_VISIBLE = "valo-menu-visible";
-    private Label notificationsBadge;
-    private Label reportsBadge;
     private MenuItem settingsItem;
 
     public AdminMenu() {
         setPrimaryStyleName("valo-menu");
+        setId(ID);
         setSizeUndefined();
+        TrenderEventBus.register(this);
         setCompositionRoot(buildContent());
     }
 
@@ -75,29 +75,29 @@ public final class AdminMenu extends CustomComponent {
         return logoWrapper;
     }
 
-    /*private UserView getCurrentUser() {
-        return (UserView) VaadinSession.getCurrent().getAttribute(
-                UserView.class.getName());
-    }*/
+    private User getCurrentUser() {
+        return (User) VaadinSession.getCurrent().getAttribute(
+                User.class.getName());
+    }
 
     private Component buildUserMenu() {
         final MenuBar settings = new MenuBar();
         settings.addStyleName("user-menu");
-        //final UserView user = getCurrentUser();
+        // TODO final User user = getCurrentUser();
+        User user = new User("qwe", "qwe1", "qwe2", "qwe3");
         settingsItem = settings.addItem("", new ThemeResource("img/profile-pic-300px.jpg"), null);
         //updateUserName(null);
         settingsItem.addItem("Edit Profile", new Command() {
             @Override
             public void menuSelected(final MenuItem selectedItem) {
-                User user = new User();
-               ProfilePreferencesWindow.open(user, false);
+                ProfilePreferencesWindow.open(user, false);
             }
         });
         settingsItem.addSeparator();
         settingsItem.addItem("Sign Out", new Command() {
             @Override
             public void menuSelected(final MenuItem selectedItem) {
-                //TODO DashboardEventBus.post(new UserLoggedOutEvent());
+                TrenderEventBus.post(new UserLoggedOutEvent());
             }
         });
         return settings;
@@ -125,10 +125,10 @@ public final class AdminMenu extends CustomComponent {
         CssLayout menuItemsLayout = new CssLayout();
         menuItemsLayout.addStyleName("valo-menuitems");
 
-       for (final AdminViewType view : AdminViewType.values()) {
-           Component menuItemComponent = new ValoMenuItemButton(view);
+        for (final AdminViewType view : AdminViewType.values()) {
+            Component menuItemComponent = new ValoMenuItemButton(view);
 
-            /*if (view == AdminViewType.QUESTION) {
+            /*if (view == AdminViewType.REPORTS) {
                 // Add drop target to reports button
                 DragAndDropWrapper reports = new DragAndDropWrapper(menuItemComponent);
                 reports.setSizeUndefined();
@@ -137,9 +137,14 @@ public final class AdminMenu extends CustomComponent {
 
                     @Override
                     public void drop(final DragAndDropEvent event) {
-                        UI.getCurrent().getNavigator().navigateTo(AdminViewType.QUESTION.getViewName());
-                        Table table = (Table) event.getTransferable().getSourceComponent();
-                       // DashboardEventBus.post(new TransactionReportEvent((Collection<Question>) table.getValue()));
+                        UI.getCurrent()
+                                .getNavigator()
+                                .navigateTo(
+                                        DashboardViewType.REPORTS.getViewName());
+                        Table table = (Table) event.getTransferable()
+                                .getSourceComponent();
+                        DashboardEventBus.post(new TransactionReportEvent(
+                                (Collection<Transaction>) table.getValue()));
                     }
 
                     @Override
@@ -149,27 +154,25 @@ public final class AdminMenu extends CustomComponent {
 
                 });
                 menuItemComponent = reports;
-            }
-
-            if (view == AdminViewType.USER) {
-                notificationsBadge = new Label();
-                menuItemComponent = buildBadgeWrapper(menuItemComponent,notificationsBadge);
             }*/
+
             menuItemsLayout.addComponent(menuItemComponent);
         }
         return menuItemsLayout;
-        }
 
+    }
 
-    private Component buildBadgeWrapper(final Component menuItemButton, final Component badgeLabel) {
-        CssLayout dashboardWrapper = new CssLayout(menuItemButton);
-        dashboardWrapper.addStyleName("badgewrapper");
-        dashboardWrapper.addStyleName(ValoTheme.MENU_ITEM);
-        badgeLabel.addStyleName(ValoTheme.MENU_BADGE);
-        badgeLabel.setWidthUndefined();
-        badgeLabel.setVisible(false);
-        dashboardWrapper.addComponent(badgeLabel);
-        return dashboardWrapper;
+    @Subscribe
+    public void postViewChange(final PostViewChangeEvent event) {
+        // After a successful view change the menu can be hidden in mobile view.
+        getCompositionRoot().removeStyleName(STYLE_VISIBLE);
+    }
+
+    @Subscribe
+    public void updateUserName(final ProfileUpdatedEvent event) {
+        User user = new User("qwe", "qwe1", "qwe2", "qwe3");
+        // TODO User user = getCurrentUser();
+        settingsItem.setText(user.getFirstName() + " " + user.getSecondName());
     }
 
     public final class ValoMenuItemButton extends Button {
@@ -182,16 +185,22 @@ public final class AdminMenu extends CustomComponent {
             this.view = view;
             setPrimaryStyleName("valo-menu-item");
             setIcon(view.getIcon());
-            setCaption(view.getViewName().substring(0, 1).toUpperCase()
-                    + view.getViewName().substring(1));
+            setCaption(view.getViewName().substring(0, 1).toUpperCase()+ view.getViewName().substring(1));
+            TrenderEventBus.register(this);
             addClickListener(new ClickListener() {
                 @Override
                 public void buttonClick(final ClickEvent event) {
-                    System.out.println(view.getViewName());
                     UI.getCurrent().getNavigator().navigateTo(view.getViewName());
                 }
             });
+        }
 
+        @Subscribe
+        public void postViewChange(final PostViewChangeEvent event) {
+            removeStyleName(STYLE_SELECTED);
+            if (event.getView() == view) {
+                addStyleName(STYLE_SELECTED);
+            }
         }
     }
 }
