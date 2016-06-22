@@ -25,7 +25,6 @@ public class TrenderNavigator extends Navigator {
 
         super(UI.getCurrent(), container);
         String host = getUI().getPage().getLocation().getHost();
-        System.out.println(host);
         initViewChangeListener();
         initViewProviders();
     }

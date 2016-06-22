@@ -10,6 +10,7 @@ import javax.persistence.TypedQuery;
 
 import java.util.List;
 
+import static com.trender.entity.Role.READ_ROLE_BY_NAME;
 import static com.trender.entity.Role.READ_USER_ROLES;
 
 /**
@@ -29,5 +30,13 @@ public class RoleDaoImpl extends AbstractDao<Role, Long> implements RoleDao {
         query.setParameter("id", id);
         List<Role> roles = query.getResultList();
         return roles;
+    }
+
+    @Override
+    public Role readRoleByName(String name) throws DaoException {
+        TypedQuery<Role> query = entityManager.createNamedQuery(READ_ROLE_BY_NAME, Role.class);
+        query.setParameter("roleName", name);
+        Role role = query.getSingleResult();
+        return role;
     }
 }

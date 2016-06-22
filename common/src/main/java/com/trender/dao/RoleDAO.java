@@ -11,4 +11,6 @@ import java.util.List;
 public interface RoleDao extends Dao<Role,Long> {
 
     List<Role> readRoleByUserId(Long id) throws DaoException;
+
+    Role readRoleByName(String name) throws DaoException;
 }

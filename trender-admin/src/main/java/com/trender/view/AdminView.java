@@ -11,21 +11,22 @@ import com.vaadin.ui.*;
 /**
  * Created by EgorVeremeychik on 19.06.2016.
  */
-@Theme("mytheme")
+
 @SpringView(name = AdminView.VIEW_NAME)
-public class AdminView extends VerticalLayout implements View {
+public class AdminView extends HorizontalLayout implements View {
 
     public static final String VIEW_NAME = "admin_panel";
 
     public AdminView() {
         setSizeFull();
+        //addStyleName("mainview");
         addComponent(new AdminMenu());
 
         ComponentContainer content = new CssLayout();
-        content.addStyleName("view-content");
+        //content.addStyleName("view-content");
         content.setSizeFull();
         addComponent(content);
-        setExpandRatio(content, 1.0f);
+        setExpandRatio(content, 70);
 
         new TrenderNavigator(content);
     }

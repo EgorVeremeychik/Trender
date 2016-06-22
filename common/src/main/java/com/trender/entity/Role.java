@@ -14,11 +14,12 @@ import java.util.Set;
         @NamedQuery(name = "Role.readAll", query = "SELECT role FROM Role role"),
         @NamedQuery(name = "Role.readById", query = "SELECT role FROM Role role WHERE role.id = :id"),
         @NamedQuery(name = "Role.readUserRoles", query = "SELECT role FROM Role role join role.users users WHERE users.id = :id"),
-
+        @NamedQuery(name = "Role.readByName", query = "SELECT role FROM Role role WHERE role.roleName = :roleName")
 })
 public class Role implements Serializable {
 
     public static final String READ_USER_ROLES = "Role.readUserRoles";
+    public static final String READ_ROLE_BY_NAME = "Role.readByName";
 
     private static final long serialVersionUID = -23243423823982L;
 
@@ -30,14 +31,7 @@ public class Role implements Serializable {
     @Column(name = "role_name", nullable = false, length = 45)
     private String roleName;
 
-    /*@JoinColumn(name = "question_id", referencedColumnName = "id", insertable = false, updatable = false)
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private User us;*/
-
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(name = "user_has_role", joinColumns = {
-            @JoinColumn(name = "role_id", referencedColumnName = "id")}, inverseJoinColumns = {
-            @JoinColumn(name = "user_id", referencedColumnName = "id")})
+    @ManyToMany(mappedBy = "roles")
     private Set<User> users;
 
     public Role() {
@@ -68,13 +62,14 @@ public class Role implements Serializable {
         this.id = roleID;
     }
 
-    /*public User getUser() {
-        return us;
+
+    public Set<User> getUsers() {
+        return users;
     }
 
-    public void setUser(User us) {
-        this.us = us;
-    }*/
+    public void setUsers(Set<User> users) {
+        this.users = users;
+    }
 
     @Override
     public String toString() {

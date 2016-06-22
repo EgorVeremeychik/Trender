@@ -19,9 +19,6 @@
  * @group util
  */
 
-@import "trender.css";
-@import "adminPage.css";
-
 @-webkit-keyframes valo-animate-in-fade {
 		0% {
 		opacity: 0;
@@ -12984,4 +12981,20 @@ div.v-layout.v-horizontal.v-widget {
 	position: relative;
 	top: 6px;
 	left: -4px;
+}
+
+.v-content{
+	padding-top: 0px;
+	display: inline-flex;
+}
+
+.v-left-content {
+	margin-top: 0px;
+	width: 15%;
+	height: 100%;
+}
+
+.v-right-content {
+	height: 100%;
+	width: 84%;
 }

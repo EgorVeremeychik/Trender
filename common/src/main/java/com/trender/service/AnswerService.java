@@ -9,7 +9,6 @@ import java.util.List;
  * Created by EgorVeremeychik on 14.06.2016.
  */
 
-
 public interface AnswerService {
     void create(Answer answer) throws ServiceException;
 

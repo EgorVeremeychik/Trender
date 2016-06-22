@@ -20,7 +20,7 @@ public class UserServiceImplTest {
 
     @Test
     public void readByLogin() throws Exception {
-        /*System.out.println(userService.readByLogin("qwe1@mail.ru"));*/
+        System.out.println(userService.readByLogin("qwe1@mail.ru"));
     }
 
 }

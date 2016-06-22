@@ -37,7 +37,7 @@ import com.vaadin.ui.themes.ValoTheme;
 @SuppressWarnings({ "serial", "unchecked" })
 public final class AdminMenu extends CustomComponent {
 
-    public static final String ID = "dashboard-menu";
+    public static final String ID = "trender-menu";
     private static final String STYLE_VISIBLE = "valo-menu-visible";
     private MenuItem settingsItem;
 
@@ -53,10 +53,10 @@ public final class AdminMenu extends CustomComponent {
         final CssLayout menuContent = new CssLayout();
         menuContent.addStyleName("sidebar");
         menuContent.addStyleName(ValoTheme.MENU_PART);
-        menuContent.addStyleName("no-vertical-drag-hints");
-        menuContent.addStyleName("no-horizontal-drag-hints");
-        menuContent.setWidth(null);
-        menuContent.setHeight("100%");
+  //      menuContent.addStyleName("no-vertical-drag-hints");
+ //       menuContent.addStyleName("no-horizontal-drag-hints");
+        menuContent.setWidth(30, Unit.PERCENTAGE);
+        menuContent.setHeight(100, Unit.PERCENTAGE);
 
         menuContent.addComponent(buildTitle());
         menuContent.addComponent(buildUserMenu());

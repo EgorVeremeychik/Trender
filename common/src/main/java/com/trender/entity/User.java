@@ -10,7 +10,7 @@ import java.util.Set;
  */
 
 @Entity
-@Table(name = "us", catalog = "trender")
+@Table(name = "user", catalog = "trender")
 @NamedQueries({
         @NamedQuery(name = "User.readAll", query = "SELECT user FROM User user"),
         @NamedQuery(name = "User.readById", query = "SELECT user FROM User user WHERE user.id = :id"),
@@ -41,8 +41,11 @@ public class User implements Serializable {
     @ManyToMany(mappedBy = "users", fetch = FetchType.LAZY)
     private Set<Answer> answers;
 
-    @ManyToMany(mappedBy = "users", fetch = FetchType.LAZY)
-    private Set<Role> roles = new HashSet<>();
+    @ManyToMany
+    @JoinTable(name = "user_has_role", joinColumns = {
+            @JoinColumn(name = "user_id", referencedColumnName = "id")}, inverseJoinColumns = {
+            @JoinColumn(name = "role_id", referencedColumnName = "id")})
+    private Set<Role> roles;
 
     public User() {
     }
@@ -52,6 +55,14 @@ public class User implements Serializable {
         this.email = email;
         this.firstName = firstName;
         this.secondName = secondName;
+    }
+
+    public User(String password, String email, String firstName, String secondName, Set<Role> roles) {
+        this.password = password;
+        this.email = email;
+        this.firstName = firstName;
+        this.secondName = secondName;
+        this.roles = roles;
     }
 
     public User(Long id, String email, String password, String firstName, String secondName) {

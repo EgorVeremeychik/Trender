@@ -21,6 +21,6 @@ public class RoleDaoImplTest extends Assert {
 
     @Test
     public void testReadRoleByUserId() throws Exception {
-       /* System.out.println(roleDao.readRoleByUserId(1L));*/
+       System.out.println(roleDao.readRoleByUserId(1L));
     }
 }

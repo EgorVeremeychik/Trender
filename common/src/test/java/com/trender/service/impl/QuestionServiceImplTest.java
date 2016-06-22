@@ -28,4 +28,10 @@ public class QuestionServiceImplTest extends Assert {
         /*questionService.create(new Question("fgsd"));*/
     }
 
+    @Test
+    public void getAll() throws Exception {
+        for(int i = 0; i< questionService.getAll().size(); i++){
+            System.out.println(questionService.getAll().get(i));
+        }
+    }
 }

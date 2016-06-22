@@ -21,6 +21,6 @@ public class UserDaoImplTest extends Assert {
 
     @Test
     public void readUserByLogin() throws Exception {
-        /*System.out.println(userDao.readUserByLogin("qwe@mail.ru"));*/
+        System.out.println(userDao.readUserByLogin("qwe@mail.ru"));
     }
 }
