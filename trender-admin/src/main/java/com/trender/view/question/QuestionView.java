@@ -1,49 +1,57 @@
 package com.trender.view.question;
 
-import com.trender.entity.Question;
-import com.trender.service.QuestionService;
-import com.trender.service.exception.ServiceException;
-import com.trender.service.impl.QuestionServiceImpl;
-import com.vaadin.data.util.IndexedContainer;
-import com.vaadin.navigator.View;
-import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.spring.annotation.SpringView;
 
-import java.util.List;
 import java.util.Set;
-import com.vaadin.data.Container.Filter;
-import com.vaadin.data.Container.Filterable;
+import java.util.List;
+
+import com.vaadin.spring.annotation.SpringComponent;
+import com.vaadin.spring.annotation.SpringUI;
+import com.vaadin.ui.*;
+import java.util.ArrayList;
 import com.vaadin.data.Item;
+import com.vaadin.server.Page;
+import com.vaadin.event.Action;
 import com.vaadin.data.Property;
+import com.vaadin.navigator.View;
+import com.trender.dao.QuestionDao;
+import com.trender.entity.Question;
+import com.vaadin.server.Responsive;
+import com.vaadin.server.FontAwesome;
+import com.vaadin.ui.themes.ValoTheme;
+import com.vaadin.event.Action.Handler;
+import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.data.Container.Filter;
+import com.vaadin.event.ShortcutListener;
+import com.vaadin.ui.Table.TableDragMode;
+import com.trender.service.QuestionService;
+import com.vaadin.spring.annotation.UIScope;
+import com.vaadin.data.Container.Filterable;
+import com.vaadin.data.util.IndexedContainer;
+import com.vaadin.event.ShortcutAction.KeyCode;
+import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
-import com.vaadin.event.Action;
-import com.vaadin.event.Action.Handler;
 import com.vaadin.event.FieldEvents.TextChangeEvent;
 import com.vaadin.event.FieldEvents.TextChangeListener;
-import com.vaadin.event.ShortcutAction.KeyCode;
-import com.vaadin.event.ShortcutListener;
-import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.server.FontAwesome;
-import com.vaadin.server.Page;
-import com.vaadin.server.Responsive;
-import com.vaadin.ui.*;
-import com.vaadin.ui.Table.TableDragMode;
-import com.vaadin.ui.themes.ValoTheme;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 
 /**
  * Created by Egor.Veremeychik on 20.06.2016.
  */
 
-@SuppressWarnings({"serial", "unchecked"})
+@SuppressWarnings({"serial"})
+@UIScope
 @SpringView(name = QuestionView.VIEW_NAME)
 public final class QuestionView extends VerticalLayout implements View {
 
-    public static final String VIEW_NAME = "question";
+    public static final String VIEW_NAME = "questions";
 
     @Autowired
     private QuestionService questionService;
+
+    @Autowired
+    private QuestionDao questionDao;
 
     private final Table table;
     private Button createQuestion;
@@ -54,7 +62,6 @@ public final class QuestionView extends VerticalLayout implements View {
         setSizeFull();
         addStyleName("transactions");
         addComponent(buildToolbar());
-
         table = buildTable();
         addComponent(table);
         setExpandRatio(table, 1);
@@ -68,7 +75,7 @@ public final class QuestionView extends VerticalLayout implements View {
 
     private Component buildToolbar() {
         HorizontalLayout header = new HorizontalLayout();
-        header.setWidth(100,Unit.PERCENTAGE);
+        header.setWidth(100, Unit.PERCENTAGE);
 
         HorizontalLayout headerL = new HorizontalLayout();
         headerL.setSpacing(true);
@@ -79,19 +86,20 @@ public final class QuestionView extends VerticalLayout implements View {
         title.addStyleName(ValoTheme.LABEL_NO_MARGIN);
         headerL.addComponent(title);
 
-        createQuestion = buildCreateReport();
+        createQuestion = buildCreateQuestion();
         filter = buildFilter();
         HorizontalLayout headerR = new HorizontalLayout(filter, createQuestion);
         headerR.setSpacing(true);
+        headerR.setMargin(new MarginInfo(false, true, false, true));
+
         header.addComponent(headerL);
         header.addComponent(headerR);
         header.setComponentAlignment(headerR, Alignment.MIDDLE_RIGHT);
-        headerR.setMargin(new MarginInfo(false, true, false, true));
 
         return header;
     }
 
-    private Button buildCreateReport() {
+    private Button buildCreateQuestion() {
         final Button createQuestion = new Button("Create question");
         createQuestion.setDescription("Create a new question");
         /*createQuestion.addClickListener(new ClickListener() {
@@ -112,11 +120,11 @@ public final class QuestionView extends VerticalLayout implements View {
                 data.removeAllContainerFilters();
                 data.addContainerFilter(new Filter() {
                     @Override
-                    public boolean passesFilter(final Object itemId,final Item item) {
+                    public boolean passesFilter(final Object itemId, final Item item) {
                         if (event.getText() == null || event.getText().equals("")) {
                             return true;
                         }
-                        return filterByProperty("value", item,event.getText());
+                        return filterByProperty("value", item, event.getText());
                     }
 
                     @Override
@@ -133,7 +141,7 @@ public final class QuestionView extends VerticalLayout implements View {
         filter.setInputPrompt("Filter");
         filter.setIcon(FontAwesome.SEARCH);
         filter.addStyleName(ValoTheme.TEXTFIELD_INLINE_ICON);
-        filter.addShortcutListener(new ShortcutListener("Clear",KeyCode.ESCAPE, null) {
+        filter.addShortcutListener(new ShortcutListener("Clear", KeyCode.ESCAPE, null) {
             @Override
             public void handleAction(final Object sender, final Object target) {
                 filter.setValue("");
@@ -157,27 +165,34 @@ public final class QuestionView extends VerticalLayout implements View {
         table.addStyleName(ValoTheme.TABLE_COMPACT);
         table.setSelectable(true);
 
-        table.setColumnCollapsingAllowed(true);
-        table.setColumnReorderingAllowed(true);
-        try {
-            IndexedContainer container = new IndexedContainer();
-            container.addContainerProperty("ID", String.class, "");
-            container.addContainerProperty("Value", String.class, "");
-            List<Question> questions = questionService.getAll();
-            for (Question question : questions) {
-                Item item = container.addItem(question);
-                item.getItemProperty("ID").setValue(question.getId());
-                item.getItemProperty("Value").setValue(question.getValue());
-            }
-            table.setContainerDataSource(container);
-        } catch (ServiceException e) {
-            e.printStackTrace();
+        //table.setColumnCollapsingAllowed(true);
+        //table.setColumnReorderingAllowed(true);
+        /*try {*/
+        IndexedContainer container = new IndexedContainer();
+        container.addContainerProperty("ID", Long.class, "");
+        container.addContainerProperty("Value", String.class, "");
+        Question question0 = new Question(1L, "asdfasdasgd");
+        Question question1 = new Question(2L, "sdfgsdfgsdfgsd");
+        Question question2 = new Question(3L, "hgfgvsbvbzxcvbzxcvz");
+        List<Question> questions = new ArrayList<>();
+        questions.add(question0);
+        questions.add(question1);
+        questions.add(question2);
+        // List<Question> questions1 = questionService.getAll();
+        for (Question question : questions) {
+            Item item = container.addItem(question);
+            item.getItemProperty("ID").setValue(question.getId());
+            item.getItemProperty("Value").setValue(question.getValue());
         }
+        table.setContainerDataSource(container);
+        /*} catch (ServiceException e) {
+            e.printStackTrace();
+        }*/
         table.setSortContainerPropertyId("value");
         table.setSortAscending(false);
 
-        //table.setVisibleColumns("id", "value");
-       // table.setColumnHeaders("id", "value");
+        table.setVisibleColumns("Value");
+        table.setColumnHeaders("Value");
 
         // Allow dragging items to the reports menu
         table.setDragMode(TableDragMode.MULTIROW);
@@ -187,14 +202,14 @@ public final class QuestionView extends VerticalLayout implements View {
 
         table.addValueChangeListener(
                 new ValueChangeListener() {
-            @Override
-            public void valueChange(final ValueChangeEvent event) {
-                if (table.getValue() instanceof Set) {
-                    Set<Object> val = (Set<Object>) table.getValue();
-                    createQuestion.setEnabled(val.size() > 0);
-                }
-            }
-        });
+                    @Override
+                    public void valueChange(final ValueChangeEvent event) {
+                        if (table.getValue() instanceof Set) {
+                            Set<Object> val = (Set<Object>) table.getValue();
+                            createQuestion.setEnabled(val.size() > 0);
+                        }
+                    }
+                });
         table.setImmediate(true);
 
         return table;
@@ -211,8 +226,7 @@ public final class QuestionView extends VerticalLayout implements View {
     }
 
     private boolean filterByProperty(final String prop, final Item item, final String text) {
-        if (item == null || item.getItemProperty(prop) == null
-                || item.getItemProperty(prop).getValue() == null) {
+        if (item == null || item.getItemProperty(prop) == null || item.getItemProperty(prop).getValue() == null) {
             return false;
         }
         String val = item.getItemProperty(prop).getValue().toString().trim().toLowerCase();

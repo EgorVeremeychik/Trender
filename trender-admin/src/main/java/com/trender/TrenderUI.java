@@ -4,6 +4,7 @@ import com.trender.component.AdminMenu;
 import com.trender.entity.User;
 import com.trender.event.TrenderEvent.BrowserResizeEvent;
 import com.trender.event.TrenderEventBus;
+import com.trender.service.UserService;
 import com.trender.view.AdminView;
 import com.trender.view.LoginView;
 import com.vaadin.annotations.Theme;
@@ -24,6 +25,8 @@ import com.vaadin.server.Page.BrowserWindowResizeListener;
 import com.vaadin.server.Responsive;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinSession;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  * This UI is the application entry point. A UI may either represent a browser window
@@ -43,7 +46,6 @@ public class TrenderUI extends UI {
     private SpringViewProvider viewProvider;
 
     private Navigator navigator;
-
     private final TrenderEventBus trenderEventBus = new TrenderEventBus();
 
     @Override

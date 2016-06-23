@@ -7,6 +7,7 @@ import com.trender.entity.Answer;
 import com.trender.entity.Role;
 import com.trender.service.AnswerService;
 import com.trender.service.exception.ServiceException;
+import com.vaadin.spring.annotation.SpringComponent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,7 @@ import java.util.List;
  */
 
 @Service
+@SpringComponent
 public class AnswerServiceImpl implements AnswerService {
 
     @Autowired

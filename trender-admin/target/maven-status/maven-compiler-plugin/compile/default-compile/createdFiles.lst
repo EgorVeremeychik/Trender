@@ -1,4 +1,7 @@
 com\trender\TrenderNavigator$1.class
+com\trender\view\user\UserView$3.class
+com\trender\view\user\UserView$1$1.class
+com\trender\view\user\UserView$1.class
 com\trender\TrenderNavigator.class
 com\trender\util\ContextLoaderListenerConfig.class
 com\trender\view\LoginView.class
@@ -15,10 +18,13 @@ com\trender\view\AdminView.class
 com\trender\event\TrenderEvent$ProfileUpdatedEvent.class
 com\trender\view\question\QuestionView$1$1.class
 com\trender\event\TrenderEventBus.class
+com\trender\view\user\UserView$TransactionsActionHandler.class
 com\trender\view\question\QuestionView$4.class
 com\trender\util\VaadinConfiguration.class
+com\trender\view\user\UserView$2.class
 com\trender\component\AdminMenu.class
 com\trender\component\AdminMenu$3.class
+com\trender\view\user\UserView$4.class
 com\trender\util\ServletConfig.class
 com\trender\component\AdminViewType.class
 com\trender\component\ProfilePreferencesWindow.class

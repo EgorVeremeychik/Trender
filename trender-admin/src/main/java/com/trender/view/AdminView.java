@@ -2,11 +2,13 @@ package com.trender.view;
 
 import com.trender.TrenderNavigator;
 import com.trender.component.AdminMenu;
+import com.trender.service.UserService;
 import com.vaadin.annotations.Theme;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Created by EgorVeremeychik on 19.06.2016.
