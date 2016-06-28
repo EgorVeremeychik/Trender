@@ -31,10 +31,7 @@ public class Answer implements Serializable {
     @Column(name = "question_id")
     private long questionId;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(name = "user_has_answer", joinColumns = {
-        @JoinColumn(name = "answer_id", referencedColumnName = "id")}, inverseJoinColumns = {
-        @JoinColumn(name = "user_id", referencedColumnName = "id")})
+    @ManyToMany(mappedBy = "answers")
     private Set<User> users;
 
     @JoinColumn(name = "question_id", referencedColumnName = "id", insertable = false, updatable = false)
