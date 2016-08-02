@@ -20,9 +20,12 @@ public class SolrKeywordsSearchServiceImplTest extends Assert {
     private SolrKeywordsSearchServiceImpl solrKeywordsSearchServiceImpl;
 
     @Test
-    public void testSearchById() throws Exception {
-        for (Keyword keyword : solrKeywordsSearchServiceImpl.searchById()){
-            System.out.println(keyword);
-        }
+    public void testSearchFirstTen() throws Exception {
+        solrKeywordsSearchServiceImpl.searchFirstTen().forEach(System.out::println);
+    }
+
+    @Test
+    public void testSearchByValue() throws Exception {
+        solrKeywordsSearchServiceImpl.searchByValue("seo ny nahyi").forEach(System.out::println);
     }
 }

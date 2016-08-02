@@ -1,13 +1,11 @@
 package com.trender.dao.jpa;
 
-import com.trender.dao.Dao;
 import com.trender.dao.RoleDao;
 import com.trender.dao.exception.DaoException;
 import com.trender.entity.Role;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.TypedQuery;
-
 import java.util.List;
 
 import static com.trender.entity.Role.READ_ROLE_BY_NAME;

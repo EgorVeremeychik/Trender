@@ -38,7 +38,10 @@ public class User implements Serializable {
     @Column(name = "second_name", nullable = false, length = 30)
     private String secondName;
 
-    @ManyToMany(mappedBy = "users", fetch = FetchType.LAZY)
+    @ManyToMany
+    @JoinTable(name = "user_has_answers", joinColumns = {
+            @JoinColumn(name = "user_id", referencedColumnName = "id")}, inverseJoinColumns = {
+            @JoinColumn(name = "answer_id", referencedColumnName = "id")})
     private Set<Answer> answers;
 
     @ManyToMany
@@ -46,6 +49,12 @@ public class User implements Serializable {
             @JoinColumn(name = "user_id", referencedColumnName = "id")}, inverseJoinColumns = {
             @JoinColumn(name = "role_id", referencedColumnName = "id")})
     private Set<Role> roles;
+
+    @ManyToMany
+    @JoinTable(name = "user_has_research", joinColumns = {
+            @JoinColumn(name = "user_id", referencedColumnName = "id")}, inverseJoinColumns = {
+            @JoinColumn(name = "research_id", referencedColumnName = "id")})
+    private Set<Research> researches;
 
     public User() {
     }
@@ -63,6 +72,15 @@ public class User implements Serializable {
         this.firstName = firstName;
         this.secondName = secondName;
         this.roles = roles;
+    }
+
+    public User(String password, String email, String firstName, String secondName, Set<Role> roles, Set<Research> researches) {
+        this.password = password;
+        this.email = email;
+        this.firstName = firstName;
+        this.secondName = secondName;
+        this.roles = roles;
+        this.researches = researches;
     }
 
     public User(Long id, String email, String password, String firstName, String secondName) {
@@ -127,6 +145,14 @@ public class User implements Serializable {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public Set<Research> getResearches() {
+        return researches;
+    }
+
+    public void setResearches(Set<Research> researches) {
+        this.researches = researches;
     }
 
     @Override

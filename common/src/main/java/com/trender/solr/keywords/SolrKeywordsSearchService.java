@@ -8,6 +8,8 @@ import java.util.List;
  */
 public interface SolrKeywordsSearchService {
 
-    List<Keyword> searchById();
+    List<Keyword> searchFirstTen();
+
+    List<Keyword> searchByValue(String value);
 
 }

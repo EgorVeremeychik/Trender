@@ -1,8 +1,10 @@
+/*
 package com.trender;
 
+*/
 /**
  * Created by Egor.Veremeychik on 27.06.2016.
- */
+ *//*
 
 
         import com.nda.mss.dao.SongDao;
@@ -178,3 +180,4 @@ public class SolrUpdateServiceImpl implements SolrUpdateService {
         }
     }
 }
+*/

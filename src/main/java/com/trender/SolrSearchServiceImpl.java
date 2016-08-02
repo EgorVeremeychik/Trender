@@ -1,8 +1,12 @@
+/*
 package com.trender;
 
+*/
 /**
  * Created by Egor.Veremeychik on 27.06.2016.
- */
+ *//*
+
+
 
         import com.nda.mss.dao.CoverDao;
         import com.nda.mss.dao.GenreDao;
@@ -32,7 +36,6 @@ package com.trender;
         import org.springframework.beans.factory.annotation.Value;
         import org.springframework.context.annotation.Lazy;
         import org.springframework.stereotype.Service;
-
         import javax.annotation.PostConstruct;
         import javax.annotation.PreDestroy;
         import java.io.IOException;
@@ -41,9 +44,7 @@ package com.trender;
         import java.util.*;
         import java.util.stream.Collectors;
 
-/**
- * @author Alexey.Koyro
- */
+
 @Lazy(false)
 @Service
 public class SolrSearchServiceImpl implements SolrSearchService {
@@ -126,7 +127,6 @@ public class SolrSearchServiceImpl implements SolrSearchService {
         albumSolrClient = albumClient;
 
 
-        /*
         String serverType = settingsService.getProperty(Settings.SOLR_TYPE);
         if (serverType.contains("Embed")) {
             String solrLocalPath = this.getProperty(Settings.SOLR_LOCAL_HOME_PATH);
@@ -139,7 +139,8 @@ public class SolrSearchServiceImpl implements SolrSearchService {
 
         } else {
         }
-        */
+
+
     }
 
     @PreDestroy
@@ -687,10 +688,11 @@ public class SolrSearchServiceImpl implements SolrSearchService {
         List<AlbumDTO> albums = new LinkedList<>();
         try {
             StringBuilder resQueryBuilder = new StringBuilder();
-            /*for (Integer albumId : findAlbumIdByArtistId(artistId)) {
+for (Integer albumId : findAlbumIdByArtistId(artistId)) {
                 resQueryBuilder.append(" OR id:")
                         .append(albumId);
-            }*/
+            }
+
 
 
             String resQuery = "artist.id:" + artistId;
@@ -1485,3 +1487,4 @@ public class SolrSearchServiceImpl implements SolrSearchService {
     }
 }
 
+*/

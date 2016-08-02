@@ -1,6 +1,7 @@
 package com.trender.solr.keywords.impl;
 
 import com.trender.entity.Keyword;
+import com.trender.solr.keywords.SolrKeywordsSearchService;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.BinaryRequestWriter;
@@ -8,6 +9,7 @@ import org.apache.solr.client.solrj.impl.BinaryResponseParser;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
+import org.apache.solr.common.SolrDocumentList;
 import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.io.IOException;
@@ -19,7 +21,7 @@ import java.util.List;
  */
 
 @Service
-public class SolrKeywordsSearchServiceImpl extends SolrKeywordsSearchServiceImpl {
+public class SolrKeywordsSearchServiceImpl implements SolrKeywordsSearchService {
 
     private HttpSolrClient solrTrenderClient;
 
@@ -35,7 +37,7 @@ public class SolrKeywordsSearchServiceImpl extends SolrKeywordsSearchServiceImpl
     }
 
     @Override
-    public List<Keyword> searchById() {
+    public List<Keyword> searchFirstTen() {
         QueryResponse response = null;
         List<Keyword> result = new ArrayList<>();
         try {
@@ -54,7 +56,28 @@ public class SolrKeywordsSearchServiceImpl extends SolrKeywordsSearchServiceImpl
         return result;
     }
 
-    public List<Keyword> getKeywordsFromSolrResponse(QueryResponse response) {
+    @Override
+    public List<Keyword> searchByValue(String value) {
+        QueryResponse response = null;
+        List<Keyword> result = new ArrayList<>();
+        try {
+            String resQuery = "keyword:\"" + value +"\"";
+            SolrQuery query = new SolrQuery()
+                    .setQuery(resQuery)
+                    .setFields("id", "keyword", "words", "symbols", "high_frequency", "exact_frequency")
+                    .setStart(0)
+                    .setRows(5);
+            response = solrTrenderClient.query(query);
+            result = getKeywordsFromSolrResponse(response);
+        } catch (SolrServerException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    private List<Keyword> getKeywordsFromSolrResponse(QueryResponse response) {
         List<Keyword> result = new ArrayList<>();
 
         for (SolrDocument solrDocument : response.getResults()) {

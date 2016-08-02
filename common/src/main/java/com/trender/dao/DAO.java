@@ -18,5 +18,4 @@ public interface Dao<E, PK> {
     void update(E entity) throws DaoException;
 
     void delete(PK id) throws DaoException;
-
 }
