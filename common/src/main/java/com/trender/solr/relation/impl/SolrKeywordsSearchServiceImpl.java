@@ -1,7 +1,7 @@
-package com.trender.solr.keywords.impl;
+package com.trender.solr.relation.impl;
 
 import com.trender.entity.Keyword;
-import com.trender.solr.keywords.SolrKeywordsSearchService;
+import com.trender.solr.relation.SolrKeywordsSearchService;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.BinaryRequestWriter;
@@ -10,6 +10,7 @@ import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.springframework.stereotype.Service;
+
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.io.IOException;

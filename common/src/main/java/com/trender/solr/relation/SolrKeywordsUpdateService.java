@@ -1,4 +1,4 @@
-package com.trender.solr.keywords;
+package com.trender.solr.relation;
 
 import com.trender.entity.Keyword;
 

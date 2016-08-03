@@ -28,4 +28,10 @@ public class SolrKeywordsSearchServiceImplTest extends Assert {
     public void testSearchByValue() throws Exception {
         solrKeywordsSearchServiceImpl.searchByValue("seo ny nahyi").forEach(System.out::println);
     }
+
+    @Test
+    public void searchLastKeyword() throws Exception {
+        System.out.println(solrKeywordsSearchServiceImpl.searchLastKeyword());
+
+    }
 }

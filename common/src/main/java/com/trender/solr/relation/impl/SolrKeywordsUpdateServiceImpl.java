@@ -1,8 +1,8 @@
-package com.trender.solr.keywords.impl;
+package com.trender.solr.relation.impl;
 
 import com.trender.entity.Keyword;
-import com.trender.solr.keywords.SolrKeywordsSearchService;
-import com.trender.solr.keywords.SolrKeywordsUpdateService;
+import com.trender.solr.relation.SolrKeywordsSearchService;
+import com.trender.solr.relation.SolrKeywordsUpdateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

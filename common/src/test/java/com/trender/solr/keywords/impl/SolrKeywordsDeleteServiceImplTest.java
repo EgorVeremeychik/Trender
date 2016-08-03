@@ -1,24 +1,30 @@
-package com.trender.solr;
+package com.trender.solr.keywords.impl;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import static org.junit.Assert.*;
+
 /**
- * Created by Egor.Veremeychik on 27.06.2016.
+ * Created by Egor.Veremeychik on 03.08.2016.
  */
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:common-context.xml")
-public class SolrTest extends Assert {
+public class SolrKeywordsDeleteServiceImplTest extends Assert {
 
     @Autowired
-    private Solra solra;
+    private SolrKeywordsDeleteServiceImpl solrKeywordsDeleteService;
 
+    @Ignore
     @Test
-    public void parse() throws Exception {
-        solra.parse();
+    public void deleteKeywordById() throws Exception {
+        solrKeywordsDeleteService.deleteKeywordById(57531L);
     }
+
 }
