@@ -9,7 +9,7 @@ public interface Solr<E,PK> {
 
     void create(E entity) throws SolrException;
 
-    E read(PK id) throws SolrException;
+    E searchById(PK id) throws SolrException;
 
    void update(E entity) throws SolrException;
 

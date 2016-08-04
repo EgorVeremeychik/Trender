@@ -1,20 +1,31 @@
 package com.trender.entity;
 
+import org.apache.solr.client.solrj.beans.Field;
+
+import java.util.List;
+
 /**
  * Created by EgorVeremeychik on 04.07.2016.
  */
 public class Keyword {
+
+    @Field("id")
     private Long id;
-    private String value;
+    @Field("keyword")
+    private List<String> value;
+    @Field("words")
     private int words;
+    @Field("symbols")
     private int symbols;
+    @Field("high_frequency")
     private long highFrequency;
+    @Field("exact_frequency")
     private long exactFrequency;
 
     public Keyword() {
     }
 
-    public Keyword(Long id, String value, int words, int symbols, long highFrequency, long exactFrequency) {
+    public Keyword(Long id, List<String> value, int words, int symbols, long highFrequency, long exactFrequency) {
         this.id = id;
         this.value = value;
         this.words = words;
@@ -23,7 +34,7 @@ public class Keyword {
         this.exactFrequency = exactFrequency;
     }
 
-    public Keyword(String value, int words, int symbols, long highFrequency, long exactFrequency) {
+    public Keyword(List<String> value, int words, int symbols, long highFrequency, long exactFrequency) {
         this.value = value;
         this.words = words;
         this.symbols = symbols;
@@ -39,11 +50,11 @@ public class Keyword {
         this.id = id;
     }
 
-    public String getValue() {
+    public List<String> getValue() {
         return value;
     }
 
-    public void setValue(String value) {
+    public void setValue(List<String> value) {
         this.value = value;
     }
 

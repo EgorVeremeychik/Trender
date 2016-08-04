@@ -1,26 +1,31 @@
 package com.trender.entity;
 
+import org.apache.solr.client.solrj.beans.Field;
+
 /**
  * Created by Egor.Veremeychik on 02.08.2016.
  */
 public class RelationKeywordAndCore {
 
+    @Field("id")
     private Long id;
-    private Long keywordsId;
-    private Long coreId;
+    @Field("keyword_id")
+    private Long keywordId;
+    @Field("research_id")
+    private Long researchId;
 
     public RelationKeywordAndCore() {
     }
 
-    public RelationKeywordAndCore(Long id, Long keywordsId, Long coreId) {
+    public RelationKeywordAndCore(Long id, Long keywordId, Long researchId) {
         this.id = id;
-        this.keywordsId = keywordsId;
-        this.coreId = coreId;
+        this.keywordId = keywordId;
+        this.researchId = researchId;
     }
 
-    public RelationKeywordAndCore(Long coreId, Long keywordsId) {
-        this.coreId = coreId;
-        this.keywordsId = keywordsId;
+    public RelationKeywordAndCore(Long researchId, Long keywordId) {
+        this.researchId = researchId;
+        this.keywordId = keywordId;
     }
 
     public Long getId() {
@@ -31,20 +36,20 @@ public class RelationKeywordAndCore {
         this.id = id;
     }
 
-    public Long getKeywordsId() {
-        return keywordsId;
+    public Long getKeywordId() {
+        return keywordId;
     }
 
-    public void setKeywordsId(Long keywordsId) {
-        this.keywordsId = keywordsId;
+    public void setKeywordId(Long keywordId) {
+        this.keywordId = keywordId;
     }
 
-    public Long getCoreId() {
-        return coreId;
+    public Long getResearchId() {
+        return researchId;
     }
 
-    public void setCoreId(Long coreId) {
-        this.coreId = coreId;
+    public void setResearchId(Long researchId) {
+        this.researchId = researchId;
     }
 
     @Override
@@ -55,16 +60,16 @@ public class RelationKeywordAndCore {
         RelationKeywordAndCore that = (RelationKeywordAndCore) o;
 
         if (!id.equals(that.id)) return false;
-        if (!keywordsId.equals(that.keywordsId)) return false;
-        return coreId.equals(that.coreId);
+        if (!keywordId.equals(that.keywordId)) return false;
+        return researchId.equals(that.researchId);
 
     }
 
     @Override
     public int hashCode() {
         int result = id.hashCode();
-        result = 31 * result + keywordsId.hashCode();
-        result = 31 * result + coreId.hashCode();
+        result = 31 * result + keywordId.hashCode();
+        result = 31 * result + researchId.hashCode();
         return result;
     }
 
@@ -72,8 +77,8 @@ public class RelationKeywordAndCore {
     public String toString() {
         return "RelationKeywordAndCore{" +
                 "id=" + id +
-                ", keywordsId=" + keywordsId +
-                ", coreId=" + coreId +
+                ", keywordId=" + keywordId +
+                ", researchId=" + researchId +
                 '}';
     }
 }

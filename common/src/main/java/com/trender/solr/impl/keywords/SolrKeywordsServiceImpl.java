@@ -1,14 +1,14 @@
-package com.trender.solr.relation.impl;
+package com.trender.solr.impl.keywords;
 
 import com.trender.entity.Keyword;
-import com.trender.solr.relation.SolrKeywordsSearchService;
+import com.trender.solr.SolrKeywordsService;
+import com.trender.solr.impl.AbstractSolr;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.BinaryRequestWriter;
 import org.apache.solr.client.solrj.impl.BinaryResponseParser;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.apache.solr.common.SolrDocument;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -18,11 +18,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by EgorVeremeychik on 18.07.2016.
+ * Created by Egor.Veremeychik on 03.08.2016.
  */
 
 @Service
-public class SolrKeywordsSearchServiceImpl implements SolrKeywordsSearchService {
+public class SolrKeywordsServiceImpl extends AbstractSolr<Keyword, Long> implements SolrKeywordsService {
 
     private HttpSolrClient solrKeywordsClient;
 
@@ -53,14 +53,11 @@ public class SolrKeywordsSearchServiceImpl implements SolrKeywordsSearchService 
         try {
             SolrQuery query = new SolrQuery()
                     .setQuery("*:*")
-                    .setFields("id", "keyword", "words", "symbols", "high_frequency", "exact_frequency")
                     .setStart(1)
                     .setRows(10);
             response = solrKeywordsClient.query(query);
-            result = getKeywordsFromSolrResponse(response);
-        } catch (SolrServerException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+            result = response.getBeans(Keyword.class);
+        } catch (SolrServerException | IOException e) {
             e.printStackTrace();
         }
         return result;
@@ -74,21 +71,18 @@ public class SolrKeywordsSearchServiceImpl implements SolrKeywordsSearchService 
             String resQuery = "keyword:\"" + value +"\"";
             SolrQuery query = new SolrQuery()
                     .setQuery(resQuery)
-                    .setFields("id", "keyword", "words", "symbols", "high_frequency", "exact_frequency")
                     .setStart(0)
                     .setRows(5);
             response = solrKeywordsClient.query(query);
-            result = getKeywordsFromSolrResponse(response);
-        } catch (SolrServerException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+            result = response.getBeans(Keyword.class);
+        } catch (SolrServerException | IOException e) {
             e.printStackTrace();
         }
         return result;
     }
 
     @Override
-    public Keyword searchLastKeyword() {
+    public Keyword searchLast() {
         Keyword result = null;
         QueryResponse response = null;
         try {
@@ -98,43 +92,11 @@ public class SolrKeywordsSearchServiceImpl implements SolrKeywordsSearchService 
                     .setStart(1)
                     .setRows(1);
             response = solrKeywordsClient.query(query);
-            result = getKeywordFromSolr(response.getResults().get(0));
-        } catch (SolrServerException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+            result = response.getBeans(Keyword.class).get(0);
+        } catch (SolrServerException | IOException e) {
             e.printStackTrace();
         }
         return result;
     }
 
-    private List<Keyword> getKeywordsFromSolrResponse(QueryResponse response) {
-        List<Keyword> result = new ArrayList<>();
-
-        for (SolrDocument solrDocument : response.getResults()) {
-            Keyword keyword = getKeywordFromSolr(solrDocument);
-            result.add(keyword);
-        }
-        return result;
-    }
-
-    private Keyword getKeywordFromSolr(SolrDocument resultDoc) {
-        if (resultDoc == null) {
-            return null;
-        }
-        Long keywordId = Long.parseLong(String.valueOf(resultDoc.getFieldValue("id")));
-        if (keywordId == null) {
-            keywordId = (Long) resultDoc.getFieldValue("keyword.id");
-        }
-        if (keywordId != null) {
-            Keyword keyword = new Keyword();
-            keyword.setId(keywordId);
-            keyword.setValue(String.valueOf(resultDoc.getFieldValue("keyword")));
-            keyword.setWords(Integer.valueOf((String) resultDoc.getFieldValue("words")));
-            keyword.setSymbols(Integer.valueOf((String) resultDoc.getFieldValue("symbols")));
-            keyword.setHighFrequency(Long.valueOf((String) resultDoc.getFieldValue("high_frequency")));
-            keyword.setExactFrequency(Long.valueOf((String) resultDoc.getFieldValue("exact_frequency")));
-            return keyword;
-        }
-        return null;
-    }
 }

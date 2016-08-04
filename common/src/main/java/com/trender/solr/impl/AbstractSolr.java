@@ -1,4 +1,4 @@
-package com.trender.solr.keywords;
+package com.trender.solr.impl;
 
 import com.trender.solr.Solr;
 import com.trender.solr.exception.SolrException;
@@ -8,16 +8,22 @@ import org.apache.solr.client.solrj.impl.BinaryRequestWriter;
 import org.apache.solr.client.solrj.impl.BinaryResponseParser;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.apache.solr.common.SolrInputDocument;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.io.IOException;
+import java.lang.reflect.ParameterizedType;
 
 /**
  * Created by Egor.Veremeychik on 03.08.2016.
  */
-public abstract class AbstractSolrKeywords<E, PK> implements Solr<E,PK> {
+public abstract class AbstractSolr<E, PK> implements Solr<E,PK> {
+
+    private Class<E> clazz;
+
+    public AbstractSolr(){
+        this.clazz = (Class<E>) ((ParameterizedType)getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+    }
 
     private HttpSolrClient solrKeywordsClient;
 
@@ -46,14 +52,7 @@ public abstract class AbstractSolrKeywords<E, PK> implements Solr<E,PK> {
         try {
             Long id = getLastId();
             System.out.println(id);
-            SolrInputDocument doc = new SolrInputDocument();
-            doc.addField("id", id);
-            doc.addField("keyword", entity.getValue());
-            doc.addField("words", keyword.getWords());
-            doc.addField("symbols", keyword.getSymbols());
-            doc.addField("high_frequency", keyword.getHighFrequency());
-            doc.addField("exact_frequency", keyword.getExactFrequency());
-            solrKeywordsClient.add(doc);
+            solrKeywordsClient.addBean(entity);
             solrKeywordsClient.commit();
         } catch (SolrServerException e) {
             e.printStackTrace();
@@ -63,8 +62,20 @@ public abstract class AbstractSolrKeywords<E, PK> implements Solr<E,PK> {
     }
 
     @Override
-    public E read(PK id) throws SolrException {
-        return null;
+    public E searchById(PK id) throws SolrException {
+        QueryResponse response;
+        E result = null;
+        try {
+            SolrQuery query = new SolrQuery()
+                    .setQuery("id:" + id)
+                    .setStart(0)
+                    .setRows(1);
+            response = solrKeywordsClient.query(query);
+            result = response.getBeans(clazz).get(0);
+        } catch (SolrServerException | IOException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
     @Override
@@ -74,7 +85,14 @@ public abstract class AbstractSolrKeywords<E, PK> implements Solr<E,PK> {
 
     @Override
     public void delete(PK id) throws SolrException {
-
+        try {
+            solrKeywordsClient.deleteById((String) id);
+            solrKeywordsClient.commit();
+        } catch (SolrServerException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private Long getLastId() {
